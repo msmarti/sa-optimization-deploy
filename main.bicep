@@ -95,3 +95,21 @@ module azuremlWorkspace 'modules/machinelearning.bicep' = {
     storage
   ]
 }
+
+module sql 'modules/sql.bicep' = {
+  name: 'sqlsrvsa-${name}-${uniqueSuffix}-deployment'
+  params: {
+    location: location
+    sqlServerName: 'sql-${name}-${uniqueSuffix}'
+    administratorLogin: 'sasqladmin'
+    administratorLoginPassword: 'SA-G10rg10-!$!$'
+    tags: tags
+    sqlDBName: 'sqldbsa-${name}-${uniqueSuffix}'
+    allowAzureIPs: true
+    enableSqlDefender: false
+    connectionType: 'Default'
+  }
+  dependsOn: [
+    azuremlWorkspace
+  ]
+}
