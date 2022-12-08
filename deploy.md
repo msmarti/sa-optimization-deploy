@@ -2,8 +2,6 @@
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3a%2f%2fraw.githubusercontent.com%2fmsmarti%2fsa-optimization-deploy%2fmain%2fazuredeploy.json)
 
-https://github.com/msmarti/sa-optimization-deploy/blob/f1b2e526c0c4953adf4483cbbdcda8f5ee6ba1dc/azuredeploy.json
-
 ### AML workspace
 
 The files included in this project are an adaptation of [azure quickstart templates](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.machinelearningservices/machine-learning-end-to-end-secure)
