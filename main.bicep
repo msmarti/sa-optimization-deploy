@@ -4,7 +4,7 @@
 @minLength(2)
 @maxLength(10)
 @description('Prefix for all resource names.')
-param prefix string = 'opti'
+param prefix string = 'opti1'
 
 @description('Azure region used for the deployment of all resources.')
 param location string = resourceGroup().location
