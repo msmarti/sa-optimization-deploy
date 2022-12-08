@@ -28,7 +28,7 @@ var uniqueSuffix = substring(uniqueString(resourceGroup().id), 0, 4)
 param kubernetesVersion string = '1.24.6' // https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions
 
 // Dependent resources for the Azure Machine Learning workspace
-module keyvault 'modules/keyvault.bicep' = {
+module keyvault 'modules/public/keyvault.bicep' = {
   name: 'kv-${name}-${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -37,7 +37,7 @@ module keyvault 'modules/keyvault.bicep' = {
   }
 }
 
-module storage 'modules/storage.bicep' = {
+module storage 'modules/public/storage.bicep' = {
   name: 'st${name}${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -47,7 +47,7 @@ module storage 'modules/storage.bicep' = {
   }
 }
 
-module containerRegistry 'modules/containerregistry.bicep' = {
+module containerRegistry 'modules/public/containerregistry.bicep' = {
   name: 'cr${name}${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -56,7 +56,7 @@ module containerRegistry 'modules/containerregistry.bicep' = {
   }
 }
 
-module applicationInsights 'modules/applicationinsights.bicep' = {
+module applicationInsights 'modules/public/applicationinsights.bicep' = {
   name: 'appi-${name}-${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -65,7 +65,7 @@ module applicationInsights 'modules/applicationinsights.bicep' = {
   }
 }
 
-module azuremlWorkspace 'modules/machinelearning.bicep' = {
+module azuremlWorkspace 'modules/public/machinelearning.bicep' = {
   name: 'mlw-${name}-${uniqueSuffix}-deployment'
   params: {
     // workspace organization
@@ -96,7 +96,7 @@ module azuremlWorkspace 'modules/machinelearning.bicep' = {
   ]
 }
 
-module sql 'modules/sql.bicep' = {
+module sql 'modules/public/sql.bicep' = {
   name: 'sqlsrvsa-${name}-${uniqueSuffix}-deployment'
   params: {
     location: location
