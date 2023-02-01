@@ -23,11 +23,11 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-09-01' =
     dataEndpointEnabled: false
     networkRuleBypassOptions: 'AzureServices'
     networkRuleSet: {
-      defaultAction: 'Deny'
+      defaultAction: 'Allow'
     }
     policies: {
       quarantinePolicy: {
-        status: 'disabled'
+        status: 'enabled'
       }
       retentionPolicy: {
         status: 'enabled'
