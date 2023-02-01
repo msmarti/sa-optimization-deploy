@@ -1,4 +1,0 @@
-/.gitignore
-/modules/public/createSqlAcctForManagedIdentity.ps1
-/modules/public/testsql.bicep
-/script/build bicep.bat
