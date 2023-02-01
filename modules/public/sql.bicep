@@ -39,7 +39,7 @@ resource sqlServer 'Microsoft.Sql/servers@2022-05-01-preview' = {
     administratorLogin: administratorLogin
     administratorLoginPassword: administratorLoginPassword
     minimalTlsVersion: '1.2'
-    }
+  }    
 }
 
 resource firewallRule 'Microsoft.Sql/servers/firewallRules@2022-05-01-preview' = if (allowAzureIPs) {
@@ -86,6 +86,7 @@ resource sqlDB 'Microsoft.Sql/servers/databases@2022-05-01-preview' = {
       maxSizeBytes: 10737418240
       isLedgerOn: false
       licenseType: 'LicenseIncluded'  
+
     }
     sku: {
       name: 'Standard'
