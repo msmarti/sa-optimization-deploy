@@ -28,16 +28,17 @@ var uniqueSuffix = substring(uniqueString(resourceGroup().id), 0, 4)
 param kubernetesVersion string = '1.24.6' // https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions
 
 // Dependent resources for the Azure Machine Learning workspace
-module keyvault 'modules/public/keyvault.bicep' = {
+module keyvault 'resources/keyvault.bicep' = {
   name: 'kv-${name}-${uniqueSuffix}-deployment'
   params: {
     location: location
     keyvaultName: 'kv-${name}-${uniqueSuffix}'
     tags: tags
   }
-}
+} 
+output keyvaultName string = keyvault.outputs.keyvaultName
 
-module storage 'modules/public/storage.bicep' = {
+module storage 'resources/storage.bicep' = {
   name: 'st${name}${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -47,7 +48,7 @@ module storage 'modules/public/storage.bicep' = {
   }
 }
 
-module containerRegistry 'modules/public/containerregistry.bicep' = {
+module containerRegistry 'resources/containerregistry.bicep' = {
   name: 'cr${name}${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -56,7 +57,7 @@ module containerRegistry 'modules/public/containerregistry.bicep' = {
   }
 }
 
-module applicationInsights 'modules/public/applicationinsights.bicep' = {
+module applicationInsights 'resources/applicationinsights.bicep' = {
   name: 'appi-${name}-${uniqueSuffix}-deployment'
   params: {
     location: location
@@ -65,7 +66,7 @@ module applicationInsights 'modules/public/applicationinsights.bicep' = {
   }
 }
 
-module azuremlWorkspace 'modules/public/machinelearning.bicep' = {
+module azuremlWorkspace 'resources/machinelearning.bicep' = {
   name: 'mlw-${name}-${uniqueSuffix}-deployment'
   params: {
     // workspace organization
@@ -96,13 +97,19 @@ module azuremlWorkspace 'modules/public/machinelearning.bicep' = {
   ]
 }
 
-module sql 'modules/public/sql.bicep' = {
+resource kv 'Microsoft.KeyVault/vaults@2022-11-01' existing= {
+  name: keyvault.outputs.keyvaultName
+  scope: resourceGroup()
+}
+
+// Note: you are invited to change sql admin login and password in your enviroment
+module sql 'resources/sql.bicep' = {
   name: 'sqlsrvsa-${name}-${uniqueSuffix}-deployment'
   params: {
     location: location
     sqlServerName: 'sql-${name}-${uniqueSuffix}'
     administratorLogin: 'sasqladmin'
-    administratorLoginPassword: 'SA-G10rg10-!$!$'
+    administratorLoginPassword: kv.getSecret('sqlpassword')
     tags: tags
     sqlDBName: 'sqldbsa-${name}-${uniqueSuffix}'
     allowAzureIPs: true
